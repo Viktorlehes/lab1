@@ -49,13 +49,13 @@ abstract public class Car implements Movable {
         currentSpeed = 0;
     }
 
-    public abstract double speedFactor();
+    protected abstract double speedFactor();
 
-    public void incrementSpeed(double amount){
+    private void incrementSpeed(double amount){
         currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount, enginePower);
     }
 
-    public void decrementSpeed(double amount){
+    private void decrementSpeed(double amount){
         currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
     }
 
@@ -77,12 +77,12 @@ abstract public class Car implements Movable {
     }
 
     public void gas(double amount){
-        if (amount < 1 && amount > 0)
+        if (amount <= 1 && amount >= 0)
             incrementSpeed(amount);
     }
 
     public void brake(double amount){
-        if (amount < 1 && amount > 0)
+        if (amount <= 1 && amount >= 0)
             decrementSpeed(amount);
     }
 }

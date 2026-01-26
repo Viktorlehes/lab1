@@ -23,8 +23,8 @@ public class Saab95Test {
     void checkGasSafe() {
         saab.gas(2);
         assertEquals(0,saab.getCurrentSpeed());
-
-        saab.incrementSpeed(130);
+        for (int i=0; i<100; i++)
+            saab.gas(1);
         assertEquals(125,saab.getCurrentSpeed());
         saab.gas(1);
     }
