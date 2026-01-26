@@ -36,7 +36,6 @@ abstract public class Car implements Movable {
     public double getCurrentSpeed(){
         return currentSpeed;
     }
-    protected void setCurrentSpeed(double speed) { this.currentSpeed = speed;}
 
     public Color getColor(){
         return color;
@@ -53,7 +52,7 @@ abstract public class Car implements Movable {
     public abstract double speedFactor();
 
     public void incrementSpeed(double amount){
-        currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,enginePower);
+        currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount, enginePower);
     }
 
     public void decrementSpeed(double amount){
@@ -75,5 +74,15 @@ abstract public class Car implements Movable {
 
     public void  turnRight(){
         direction = direction.turnRight();
+    }
+
+    public void gas(double amount){
+        if (amount < 1 && amount > 0)
+            incrementSpeed(amount);
+    }
+
+    public void brake(double amount){
+        if (amount < 1 && amount > 0)
+            decrementSpeed(amount);
     }
 }
