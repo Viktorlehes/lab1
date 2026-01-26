@@ -21,8 +21,8 @@ public class Volvo240Test {
     @Test
     @DisplayName("Check gas within limit")
     void checkGasSafe() {
-        volvo.gas(2);
-        assertEquals(0,volvo.getCurrentSpeed());
+        volvo.startEngine();
+        assertEquals(0.1,volvo.getCurrentSpeed());
         for (int i=0; i<100; i++)
             volvo.gas(1);
         assertEquals(100,volvo.getCurrentSpeed());
@@ -47,8 +47,22 @@ public class Volvo240Test {
     }
 
     @Test
+    @DisplayName("Check engine status")
+    void checkEngineStatus(){
+        volvo.stopEngine();
+        assertEquals(0,volvo.getCurrentSpeed());
+        volvo.gas(1);
+        assertEquals(0,volvo.getCurrentSpeed());
+        volvo.startEngine();
+        volvo.gas(1);
+        assertEquals(1.35,volvo.getCurrentSpeed());
+    }
+
+    @Test
     @DisplayName("Movement")
     void checkMovement() {
+        volvo.stopEngine();
+        volvo.startEngine();
         assertEquals(0, volvo.getPosition().x);
         assertEquals(0, volvo.getPosition().y);
         volvo.gas(1);
@@ -56,15 +70,15 @@ public class Volvo240Test {
         volvo.gas(1);
         volvo.move();
         assertEquals(0,volvo.getPosition().x);
-        assertEquals(-3.75, volvo.getPosition().y);
+        assertEquals(-3.85, volvo.getPosition().y);
         volvo.turnRight();
         volvo.move();
-        assertEquals(-3.75, volvo.getPosition().x);
-        assertEquals(-3.75,volvo.getPosition().y);
+        assertEquals(-3.85, volvo.getPosition().x);
+        assertEquals(-3.85,volvo.getPosition().y);
         volvo.turnLeft();
         volvo.turnLeft();
         volvo.move();
         assertEquals(0,volvo.getPosition().x);
-        assertEquals(-3.75,volvo.getPosition().y);
+        assertEquals(-3.85,volvo.getPosition().y);
     }
 }

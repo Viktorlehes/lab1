@@ -2,6 +2,11 @@ public class PointD {
     public double x;
     public double y;
 
+    public PointD (PointD p) {
+        this.x = p.x;
+        this.y = p.y;
+    }
+
     public PointD () {
         this.x = 0.0;
         this.y = 0.0;

@@ -11,12 +11,10 @@ abstract public class Car implements Movable {
 
     Car(int nrDoors,
         double enginePower,
-        double currentSpeed,
         Color color,
         String modelName ){
         this.nrDoors = nrDoors;
         this.enginePower = enginePower;
-        this.currentSpeed = currentSpeed;
         this.color = color;
         this.modelName = modelName;
         this.position = new PointD(0.0,0.0);
@@ -28,7 +26,9 @@ abstract public class Car implements Movable {
         return nrDoors;
     }
     public String getModelName() {return modelName;}
-    public PointD getPosition() {return position;}
+    public PointD getPosition() {
+        return new PointD(position);
+    }
     public double getEnginePower(){
         return enginePower;
     }
@@ -59,6 +59,7 @@ abstract public class Car implements Movable {
         currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
     }
 
+    @Override
     public void move() {
         switch (direction) {
             case UP -> position.y += currentSpeed;
@@ -68,21 +69,23 @@ abstract public class Car implements Movable {
         }
     }
 
+    @Override
     public void turnLeft(){
         direction = direction.turnLeft();
     }
 
+    @Override
     public void  turnRight(){
         direction = direction.turnRight();
     }
 
     public void gas(double amount){
-        if (amount <= 1 && amount >= 0)
+        if (amount <= 1 && amount >= 0 && currentSpeed != 0)
             incrementSpeed(amount);
     }
 
     public void brake(double amount){
-        if (amount <= 1 && amount >= 0)
+        if (amount <= 1 && amount >= 0 && currentSpeed != 0)
             decrementSpeed(amount);
     }
 }
