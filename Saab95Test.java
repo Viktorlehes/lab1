@@ -1,47 +1,47 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-public class Saab95Test {
+class Saab95Test {
     private final Saab95 saab = new Saab95();
 
     @Test
     @DisplayName("Check Nr Doors")
     void checkDoors() {
-        assertEquals(2, saab.getNrDoors());
+        Assertions.assertEquals(2, saab.getNrDoors());
     }
 
     @Test
     @DisplayName("Check model name")
     void checkModelName() {
-        assertEquals("Saab95", saab.getModelName());
+        Assertions.assertEquals("Saab95", saab.getModelName());
     }
 
     @Test
     @DisplayName("Check gas within limit")
     void checkGasSafe() {
+        saab.startEngine();
         saab.gas(2);
-        assertEquals(0,saab.getCurrentSpeed());
+        Assertions.assertEquals(0,saab.getCurrentSpeed());
         for (int i=0; i<100; i++)
             saab.gas(1);
-        assertEquals(125,saab.getCurrentSpeed());
+        Assertions.assertEquals(125,saab.getCurrentSpeed());
         saab.gas(1);
     }
 
     @Test
     @DisplayName("Check speedFactor")
     void checkTrim() {
-        assertEquals(1.25, saab.speedFactor());
+        Assertions.assertEquals(1.25, saab.speedFactor());
     }
 
     @Test
     @DisplayName("Check turbo function")
     void checkTurbo() {
-        assertFalse(saab.getTurboStatus());
+        Assertions.assertFalse(saab.getTurboStatus());
         saab.setTurboOn();
-        assertTrue(saab.getTurboStatus());
+        Assertions.assertTrue(saab.getTurboStatus());
         saab.setTurboOff();
-        assertFalse(saab.getTurboStatus());
+        Assertions.assertFalse(saab.getTurboStatus());
     }
 }
