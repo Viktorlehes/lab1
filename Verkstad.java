@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Verkstad<T extends Vehicle> {
+public class Verkstad<T extends Car> {
     private final ArrayList<T> inventory = new ArrayList<>();
     private final int maxInventory;
 
@@ -10,11 +10,11 @@ public class Verkstad<T extends Vehicle> {
 
     /**
      * Adds a vehicle to the verkstad if there is space
-     * @param vehicle The vehicle to be added
+     * @param car The vehicle to be added
      */
-    public void addVehicle(T vehicle) {
+    public void addVehicle(T car) {
         if (inventory.size() < maxInventory)
-            inventory.add(vehicle);
+            inventory.add(car);
     }
 
     /**
@@ -22,11 +22,10 @@ public class Verkstad<T extends Vehicle> {
      * to user if it exists, otherwise throws exception
      * @param vehicle Vehicle to be removed
      * @return The vehicle that was successfully removed
-     * @throws Exception Vehicle does not exist in the Verkstad
      */
-    public T removeVehicle(T vehicle) throws Exception {
-        if (inventory.contains(vehicle)) return inventory.remove(inventory.indexOf(vehicle));
+    public T removeVehicle(T car) {
+        if (inventory.contains(car)) return inventory.remove(inventory.indexOf(car));
 
-        throw new Exception("Vehicle was not found in inventory");
+        throw new IllegalStateException("Vehicle was not found in inventory");
     }
 }

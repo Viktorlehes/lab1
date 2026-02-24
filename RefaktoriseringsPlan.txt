@@ -1,0 +1,25 @@
+Refaktoriserings plan:
+
+1. Flytta spel loopen och all tillstånd till appicationModel. Koppla CarController till
+     applicationmodel men lämna sambandet mellan carcontroller och carView. CarController
+     uppdaterar forfarande tillstånd på samma sätt genom actionlisteners som dispatchas
+     från carview. Efter uppdatering av data i Applicationmodel så kallar den på onUpdate
+     i alla sina Applicationlisteners med den nya datan. Carview tar emot den nya datan
+     och uppdaterar alla ImageObjects med deras nya positioner genom bilnamen.
+
+2. För att följa DIP så skapas vehicleController och VerkstadController interfaces som
+    avgränsar tillgänliga metoder till endast det som används i applicationmodel.
+
+3. Ta bort attachedTo: Carrier från Car. Skapa så att all lastningslogik enbart hanteras
+    i Carrier. Flytta eventuell attach/detach-funktionalitet från Car till Carrier.
+    Uppdatera kod som använder Car.attachTo() så att den istället anropar metoder i Carrier.
+
+4. Låt CarController endast använda abstraktioner. Byt ut konkreta typer
+    (t.ex. Volvo240, ArrayList) mot abstraktioner (Vehicle, List).
+    Ändra fält och metodparametrar så att de refererar till interfaces
+    eller basklasser istället för konkreta implementationer. Justera instansiering
+    så att konkreta objekt skapas utanför controllern om möjligt.
+
+5. Använd List<> istället för ArrayList<> i fält. Ändra alla fältdeklarationer
+    från ArrayList<T> till List<T>. Behåll konkret implementation vid instansiering
+    (t.ex. new ArrayList<>()). Säkerställ att inga metoder använder implementation-specifika funktioner.

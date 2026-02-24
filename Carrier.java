@@ -19,13 +19,13 @@ public class Carrier extends Truck {
         return load.size();
     }
 
-    @Override
+    /*   @Override
     public void move() {
         super.move();
         for (Car car : load) {
             car.updatePosition(this.getPosition());
         }
-    }
+    }*/
 
     /**
      * Raise the ramp so truck can resume driving

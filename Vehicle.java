@@ -1,8 +1,8 @@
 import java.awt.*;
 
 abstract public class Vehicle implements Movable {
-    private final int nrDoors;
     private final double enginePower;
+    private final int nrDoors;
     private boolean engineRunning;
     private double currentSpeed;
     private final Color color;
@@ -10,6 +10,7 @@ abstract public class Vehicle implements Movable {
     private final PointD position;
     private Direction direction;
     private boolean isLocked;
+    private boolean hasTurbo;
 
     Vehicle(int nrDoors,
             double enginePower,
@@ -20,12 +21,19 @@ abstract public class Vehicle implements Movable {
         this.color = color;
         this.modelName = modelName;
         this.position = new PointD(0.0,0.0);
-        this.direction = Direction.DOWN;
+        this.direction = Direction.RIGHT;
+        this.hasTurbo = false;
         stopEngine();
     }
 
     protected void lock() {isLocked=true;}
     protected void unlock() {isLocked=false;}
+
+    public boolean hasTurbo() {
+        return hasTurbo;
+    }
+
+    protected void setHasTurbo() {this.hasTurbo = true;}
 
     public int getNrDoors(){
         return nrDoors;
@@ -35,17 +43,19 @@ abstract public class Vehicle implements Movable {
         return new PointD(position);
     }
 
+    public Direction getDirection() {return direction;}
+
     protected  void updatePosition(PointD p) {this.updatePosition(p.x,p.y);}
 
     protected void updatePosition(double x, double y) {
-        double dx = this.getPosition().x - x;
+        /*double dx = this.getPosition().x - x;
         double dy = this.getPosition().y - y;
-        boolean reasonableRange = dx*dx + dy*dy <= 1000;   // Update according to speed ??
+        boolean reasonableRange = dx*dx + dy*dy <= 1000;   // Update according to speed ??*/
 
-        if (reasonableRange) {
+        //if (reasonableRange) {
             position.x = x;
             position.y = y;
-        }
+        //}
     }
 
     public double getEnginePower(){
@@ -57,10 +67,6 @@ abstract public class Vehicle implements Movable {
 
     public double getCurrentSpeed(){
         return currentSpeed;
-    }
-
-    public Color getColor(){
-        return color;
     }
 
     public void startEngine(){currentSpeed = 0; engineRunning = true;}
@@ -80,9 +86,9 @@ abstract public class Vehicle implements Movable {
     public void move() {
         if (engineRunning && !isLocked) {
             switch (direction) {
-                case UP -> position.y += currentSpeed;
+                case UP -> position.y -= currentSpeed;
                 case RIGHT -> position.x += currentSpeed;
-                case DOWN -> position.y -= currentSpeed;
+                case DOWN -> position.y += currentSpeed;
                 case LEFT -> position.x -= currentSpeed;
             }
         }

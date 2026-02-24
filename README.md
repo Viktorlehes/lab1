@@ -1,4 +1,3 @@
-# oopd-gu-chalmers Lab 1
-Lab assignment 1 in the course Object-oriented Programming and Design, GU/Chalmers
+# laboration-2
 
-See Canvas for instructions.
+Se Canvas för instruktioner.
