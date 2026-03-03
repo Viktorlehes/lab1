@@ -1,6 +1,8 @@
+package Vehicles;
+
 import java.awt.*;
 
-public class Scania extends Truck{
+public class Scania extends Truck {
     private double bedAngle = 0;
 
     public Scania(Color color){
@@ -13,7 +15,7 @@ public class Scania extends Truck{
 
     /**
     * Takes target angle between 0-70 degrees,
-    * Truck needs to be standing still while ramp
+    * Vehicles.Truck needs to be standing still while ramp
     * is being raised and/or is raised
     * @param targetAngle target angle between 0-70 degrees
     * */

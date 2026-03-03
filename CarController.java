@@ -1,9 +1,9 @@
+import Vehicles.*;
+
 import javax.swing.*;
-import javax.swing.text.Position;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.ConvolveOp;
 import java.util.ArrayList;
 
 /*
@@ -42,7 +42,7 @@ public class CarController {
         cc.cars.add(scania);
 
         // Start a new view and send a reference of self
-        cc.frame = new CarView("CarSim 1.0", cc);
+        //cc.frame = new CarView("CarSim 1.0", cc);
 
         // Start the timer
         cc.timer.start();
@@ -73,7 +73,7 @@ public class CarController {
                     } catch (Exception ignored) {}
                 }
 
-                frame.drawPanel.moveit(car.getModelName(), (int) pos_after.x, (int) pos_after.y);
+                //frame.drawPanel.moveit(car.getModelName(), (int) pos_after.x, (int) pos_after.y);
                 //repaint() //calls the paintComponent method of the panel
                 frame.drawPanel.repaint();
             }
@@ -151,7 +151,7 @@ public class CarController {
 
     void raiseBed() {
         for  (Vehicle vehicle : cars) {
-            if (vehicle.getModelName().equals("Scania")) {
+            if (vehicle.getModelName().equals("Vehicles.Scania")) {
                 Scania scania = (Scania)vehicle;
                 scania.raiseBed(70);
             }
@@ -160,7 +160,7 @@ public class CarController {
 
     void lowerBed() {
         for  (Vehicle vehicle : cars) {
-            if (vehicle.getModelName().equals("Scania")) {
+            if (vehicle.getModelName().equals("Vehicles.Scania")) {
                 Scania scania = (Scania)vehicle;
                 scania.lowerBed(0);
             }

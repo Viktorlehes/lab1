@@ -1,6 +1,8 @@
+package Vehicles;
+
 import java.awt.*;
 
-abstract public class Vehicle implements Movable {
+abstract public class Vehicle implements Movable, VehicleController{
     private final double enginePower;
     private final int nrDoors;
     private boolean engineRunning;
@@ -45,17 +47,11 @@ abstract public class Vehicle implements Movable {
 
     public Direction getDirection() {return direction;}
 
-    protected  void updatePosition(PointD p) {this.updatePosition(p.x,p.y);}
+    public void updatePosition(PointD p) {this.updatePosition(p.x,p.y);}
 
-    protected void updatePosition(double x, double y) {
-        /*double dx = this.getPosition().x - x;
-        double dy = this.getPosition().y - y;
-        boolean reasonableRange = dx*dx + dy*dy <= 1000;   // Update according to speed ??*/
-
-        //if (reasonableRange) {
-            position.x = x;
-            position.y = y;
-        //}
+    public void updatePosition(double x, double y) {
+        position.x = x;
+        position.y = y;
     }
 
     public double getEnginePower(){

@@ -1,3 +1,5 @@
+package Vehicles;
+
 import java.awt.*;
 
 public class Saab95 extends Car implements VehicleWithTurbo {

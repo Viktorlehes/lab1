@@ -1,7 +1,12 @@
+import Vehicles.ApplicationListener;
+import Vehicles.PointD;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class represents the full view of the MVC pattern of your car simulator.
@@ -10,33 +15,48 @@ import java.awt.*;
  * each of it's components.
  **/
 
-public class CarView extends JFrame{
+public class CarView extends JFrame implements ApplicationListener {
     private static final int X = 800;
     private static final int Y = 800;
-
+    static final int DRAWPANELHEIGHT = Y-240;
+    static final int DRAWPANELWIDTH = 800;
     // The controller member
-    CarController carC;
+    CarController2 carC;
+    Map<String, PointD> vehicleData = new HashMap<String, PointD>();
 
-    DrawPanel drawPanel = new DrawPanel(X, Y-240);
 
-    JPanel controlPanel = new JPanel();
-
-    JPanel gasPanel = new JPanel();
-    JSpinner gasSpinner = new JSpinner();
+    DrawPanel drawPanel;
+    JPanel controlPanel;
+    JPanel gasPanel;
+    JSpinner gasSpinner;
     int gasAmount = 0;
-    JLabel gasLabel = new JLabel("Amount of gas");
+    JLabel gasLabel;
 
-    JButton gasButton = new JButton("Gas");
-    JButton brakeButton = new JButton("Brake");
-    JButton turboOnButton = new JButton("Saab Turbo on");
-    JButton turboOffButton = new JButton("Saab Turbo off");
-    JButton liftBedButton = new JButton("Scania Lift Bed");
-    JButton lowerBedButton = new JButton("Lower Lift Bed");
-    JButton startButton = new JButton("Start all cars");
-    JButton stopButton = new JButton("Stop all cars");
+    JButton gasButton;
+    JButton brakeButton;
+    JButton turboOnButton;
+    JButton turboOffButton;
+    JButton liftBedButton;
+    JButton lowerBedButton;
+    JButton startButton;
+    JButton stopButton;
     // Constructor
-    public CarView(String framename, CarController cc){
+    public CarView(String framename, CarController2 cc){
         this.carC = cc;
+        controlPanel = new JPanel();
+        gasPanel = new JPanel();
+        gasSpinner = new JSpinner();
+        gasLabel = new JLabel("Amount of gas");
+        gasButton = new JButton("Gas");
+        brakeButton = new JButton("Brake");
+        turboOnButton = new JButton("Saab Turbo on");
+        turboOffButton = new JButton("Saab Turbo off");
+        liftBedButton = new JButton("Vehicles.Scania Lift Bed");
+        lowerBedButton = new JButton("Lower Lift Bed");
+        startButton = new JButton("Start all cars");
+        stopButton = new JButton("Stop all cars");
+
+        drawPanel = new DrawPanel(DRAWPANELWIDTH, DRAWPANELHEIGHT, vehicleData);
         initComponents(framename);
     }
 
@@ -113,5 +133,13 @@ public class CarView extends JFrame{
         turboOffButton.addActionListener(e -> carC.turboOff());
         liftBedButton.addActionListener(e -> carC.raiseBed());
         lowerBedButton.addActionListener(e -> carC.lowerBed());
+    }
+
+    public void onUpdate(Map<String, PointD> vehicleData) {
+        drawPanel.updateImageObjects(vehicleData);
+    }
+
+    public void onRemoval(String name) {
+        drawPanel.removeObject(name);
     }
 }

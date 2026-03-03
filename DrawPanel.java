@@ -1,9 +1,12 @@
+import Vehicles.PointD;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -14,17 +17,22 @@ class ImageObject {
     private BufferedImage image;
     public ImageObject(int x, int y, String imgSource) {
         this.position = new Point(x,y);
-        try {
-            this.image = ImageIO.read(DrawPanel.class.getResourceAsStream(imgSource));
+        if  (imgSource != null) {
+            try {
+                this.image = ImageIO.read(DrawPanel.class.getResourceAsStream(imgSource));
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        catch (IOException e) {
-            e.printStackTrace();
+        else {
+            this.image = null;
         }
     }
 
-    protected void moveit(int x, int y) {
-        position.x = x;
-        position.y = y;
+    protected void moveit(PointD p) {
+        position.x = (int) p.x;
+        position.y = (int) p.y;
     }
 
     public BufferedImage getImage() {
@@ -42,21 +50,35 @@ class ImageObject {
 
 public class DrawPanel extends JPanel{
     HashMap<String, ImageObject> objects = new HashMap<>();
+
     // Initializes the panel and reads the images
-    public DrawPanel(int x, int y) {
+    public DrawPanel(int x, int y, Map<String, PointD> vehicleData) {
         this.setDoubleBuffered(true);
         this.setPreferredSize(new Dimension(x, y));
         this.setBackground(Color.gray);
-        objects.put("Volvo240", new ImageObject(0,0,"pics/Volvo240.jpg"))  ;
-        objects.put("Saab95", new ImageObject(0,0,"pics/Saab95.jpg")) ;
-        objects.put("Scania", new ImageObject(0,0,"pics/Scania.jpg"));
         objects.put("Verkstad", new ImageObject(300,300,"pics/VolvoBrand.jpg")) ;
+        updateImageObjects(vehicleData);
     }
 
-    protected  void moveit(String name, int x, int y) {
-        if (objects.containsKey(name)) {
-            objects.get(name).moveit(x,y);
-        }
+    public void updateImageObjects(Map<String, PointD> vehicleData) {
+        System.out.println(objects.size());
+        if (vehicleData == null) return;
+        vehicleData.forEach((s, point) -> {
+            if (!objects.containsKey(s)) {
+                String img = null;
+                switch (s) {
+                    case "Volvo240" -> img = "pics/Volvo240.jpg";
+                    case "Saab95" -> img = "pics/Saab95.jpg";
+                    case "Scania" -> img = "pics/Scania.jpg";
+                }
+                ImageObject imgObject = new ImageObject((int) point.x,(int) point.y, img);
+                objects.put(s, imgObject);
+            } else  {
+                ImageObject imgObject = objects.get(s);
+                imgObject.moveit(point);
+            }
+        });
+        repaint();
     }
 
     protected void removeObject(String name) {

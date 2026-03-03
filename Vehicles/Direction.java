@@ -1,3 +1,5 @@
+package Vehicles;
+
 public enum Direction {
     UP,
     RIGHT,

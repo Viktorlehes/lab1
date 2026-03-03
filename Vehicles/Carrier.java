@@ -1,3 +1,5 @@
+package Vehicles;
+
 import java.awt.*;
 import java.util.LinkedList;
 
@@ -6,7 +8,7 @@ public class Carrier extends Truck {
     private final LinkedList<Car> load;
 
     Carrier(Color color, int maxLoad){
-        super(2, 225, color, "Carrier truck");
+        super(2, 225, color, "Carrier");
         this.maxLoad = maxLoad;
         this.load = new LinkedList<>();
     }
@@ -19,13 +21,13 @@ public class Carrier extends Truck {
         return load.size();
     }
 
-    /*   @Override
+    @Override
     public void move() {
         super.move();
-        for (Car car : load) {
+        for (Vehicles.Car car : load) {
             car.updatePosition(this.getPosition());
         }
-    }*/
+    }
 
     /**
      * Raise the ramp so truck can resume driving
@@ -36,7 +38,7 @@ public class Carrier extends Truck {
 
     /**
      * Attempts to lower the ramp for cars to load and unload.
-     * Truck needs to be standing still
+     * Vehicles.Truck needs to be standing still
      */
     public void lowerRamp() {
         if (getCurrentSpeed() == 0)
@@ -52,16 +54,13 @@ public class Carrier extends Truck {
 
         if (isBedActive() && load.size() < maxLoad && withinRange) {
             load.addLast(car);
-            car.attachTo(this);
         }
     }
 
     public Car ofLoadCar() throws Exception {
         if (isBedActive() && !load.isEmpty()) {
-            Car car = load.removeLast();
-            car.detachFrom();
-            return car;
+            return load.removeLast();
         }
-        throw new Exception("Bed needs to be lowered to offload Car");
+        throw new Exception("Bed needs to be lowered to offload Vehicles.Car");
     }
 }
