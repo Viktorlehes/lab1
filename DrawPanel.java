@@ -52,7 +52,7 @@ public class DrawPanel extends JPanel{
     HashMap<String, ImageObject> objects = new HashMap<>();
 
     // Initializes the panel and reads the images
-    public DrawPanel(int x, int y, Map<String, PointD> vehicleData) {
+    public DrawPanel(int x, int y, Map<String, Pair<PointD,String>> vehicleData) {
         this.setDoubleBuffered(true);
         this.setPreferredSize(new Dimension(x, y));
         this.setBackground(Color.gray);
@@ -60,22 +60,22 @@ public class DrawPanel extends JPanel{
         updateImageObjects(vehicleData);
     }
 
-    public void updateImageObjects(Map<String, PointD> vehicleData) {
+    public void updateImageObjects(Map<String, Pair<PointD, String>> vehicleData) {
         System.out.println(objects.size());
         if (vehicleData == null) return;
-        vehicleData.forEach((s, point) -> {
-            if (!objects.containsKey(s)) {
+        vehicleData.forEach((key, data) -> {
+            if (!objects.containsKey(key)) {
                 String img = null;
-                switch (s) {
+                switch (data.second) {
                     case "Volvo240" -> img = "pics/Volvo240.jpg";
                     case "Saab95" -> img = "pics/Saab95.jpg";
                     case "Scania" -> img = "pics/Scania.jpg";
                 }
-                ImageObject imgObject = new ImageObject((int) point.x,(int) point.y, img);
-                objects.put(s, imgObject);
+                ImageObject imgObject = new ImageObject((int) data.first.x,(int) data.first.y, img);
+                objects.put(key, imgObject);
             } else  {
-                ImageObject imgObject = objects.get(s);
-                imgObject.moveit(point);
+                ImageObject imgObject = objects.get(key);
+                imgObject.moveit(data.first);
             }
         });
         repaint();

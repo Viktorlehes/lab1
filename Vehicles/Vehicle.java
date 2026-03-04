@@ -2,7 +2,7 @@ package Vehicles;
 
 import java.awt.*;
 
-abstract public class Vehicle implements Movable, VehicleController{
+abstract public class Vehicle implements Movable, VehicleController {
     private final double enginePower;
     private final int nrDoors;
     private boolean engineRunning;
@@ -65,7 +65,7 @@ abstract public class Vehicle implements Movable, VehicleController{
         return currentSpeed;
     }
 
-    public void startEngine(){currentSpeed = 0; engineRunning = true;}
+    public void startEngine(){engineRunning = true;}
     public void stopEngine(){currentSpeed = 0; engineRunning = false;}
 
     protected abstract double speedFactor();

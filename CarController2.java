@@ -1,5 +1,5 @@
 public class CarController2 {
-    ApplicationModel model;
+    private final ApplicationModel model;
 
     CarController2(ApplicationModel model) {
         this.model = model;
@@ -13,4 +13,6 @@ public class CarController2 {
     void turboOff() {model.turboOff();}
     void raiseBed() {model.raiseBed();}
     void lowerBed() {model.lowerBed();}
+    void addCar(int position) {model.addCar(position);}
+    void removeCar() {model.removeCar();}
 }

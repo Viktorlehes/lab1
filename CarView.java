@@ -1,4 +1,3 @@
-import Vehicles.ApplicationListener;
 import Vehicles.PointD;
 
 import javax.swing.*;
@@ -20,9 +19,10 @@ public class CarView extends JFrame implements ApplicationListener {
     private static final int Y = 800;
     static final int DRAWPANELHEIGHT = Y-240;
     static final int DRAWPANELWIDTH = 800;
+    private int nextPosition = 280;
     // The controller member
     CarController2 carC;
-    Map<String, PointD> vehicleData = new HashMap<String, PointD>();
+    Map<String, Pair<PointD, String>> vehicleData = new HashMap<>();
 
 
     DrawPanel drawPanel;
@@ -40,6 +40,8 @@ public class CarView extends JFrame implements ApplicationListener {
     JButton lowerBedButton;
     JButton startButton;
     JButton stopButton;
+    JButton addCarButton;
+    JButton removeCarButton;
     // Constructor
     public CarView(String framename, CarController2 cc){
         this.carC = cc;
@@ -51,10 +53,12 @@ public class CarView extends JFrame implements ApplicationListener {
         brakeButton = new JButton("Brake");
         turboOnButton = new JButton("Saab Turbo on");
         turboOffButton = new JButton("Saab Turbo off");
-        liftBedButton = new JButton("Vehicles.Scania Lift Bed");
+        liftBedButton = new JButton("Scania Lift Bed");
         lowerBedButton = new JButton("Lower Lift Bed");
         startButton = new JButton("Start all cars");
         stopButton = new JButton("Stop all cars");
+        addCarButton = new JButton("Add Car");
+        removeCarButton = new JButton("Remove Car");
 
         drawPanel = new DrawPanel(DRAWPANELWIDTH, DRAWPANELHEIGHT, vehicleData);
         initComponents(framename);
@@ -86,14 +90,16 @@ public class CarView extends JFrame implements ApplicationListener {
 
         this.add(gasPanel);
 
-        controlPanel.setLayout(new GridLayout(2,4));
+        controlPanel.setLayout(new GridLayout(2,5));
 
         controlPanel.add(gasButton, 0);
         controlPanel.add(turboOnButton, 1);
         controlPanel.add(liftBedButton, 2);
-        controlPanel.add(brakeButton, 3);
-        controlPanel.add(turboOffButton, 4);
-        controlPanel.add(lowerBedButton, 5);
+        controlPanel.add(addCarButton, 3);
+        controlPanel.add(brakeButton, 4);
+        controlPanel.add(turboOffButton, 5);
+        controlPanel.add(lowerBedButton, 6);
+        controlPanel.add(removeCarButton, 7);
 
         controlPanel.setPreferredSize(new Dimension((X/2)+4, 200));
         this.add(controlPanel);
@@ -133,9 +139,21 @@ public class CarView extends JFrame implements ApplicationListener {
         turboOffButton.addActionListener(e -> carC.turboOff());
         liftBedButton.addActionListener(e -> carC.raiseBed());
         lowerBedButton.addActionListener(e -> carC.lowerBed());
+        addCarButton.addActionListener(e -> {
+            if (nextPosition < 500) {
+                carC.addCar(nextPosition);
+                nextPosition += 80;
+            }
+        });
+        removeCarButton.addActionListener(e -> {
+            if (nextPosition > 80){
+                carC.removeCar();
+                nextPosition -= 80;
+            }
+        });
     }
 
-    public void onUpdate(Map<String, PointD> vehicleData) {
+    public void onUpdate(Map<String, Pair<PointD,String>> vehicleData) {
         drawPanel.updateImageObjects(vehicleData);
     }
 

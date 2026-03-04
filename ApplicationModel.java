@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
+import java.util.Random;
 
 public class ApplicationModel {
     // CONFIG
@@ -41,15 +42,15 @@ public class ApplicationModel {
                         return;
                     } catch (Exception ignored) {}
                 }
-            notifyObservers();
             }
+            notifyObservers();
         }
     }
 
     private void notifyObservers() {
-        Map<String, PointD> vehicleData = new HashMap<>();
+        Map<String, Pair<PointD, String>> vehicleData = new HashMap<>();
         vehicles.forEach(v ->
-            vehicleData.put(v.getModelName(), v.getPosition()));
+            vehicleData.put(v.toString(), new Pair<>(v.getPosition(), v.getModelName())));
 
         for (ApplicationListener observer : observers) {
             observer.onUpdate(vehicleData);
@@ -58,7 +59,7 @@ public class ApplicationModel {
 
     void onRemoval(VehicleController vehicle) {
         for (ApplicationListener observer : observers) {
-            observer.onRemoval(vehicle.getModelName());
+            observer.onRemoval(vehicle.toString());
         }
     }
 
@@ -78,7 +79,7 @@ public class ApplicationModel {
     void turboOn() {
         for  (VehicleController vehicle : vehicles) {
             if (vehicle.hasTurbo()) {
-                VehicleWithTurbo vehicleWithTurbo = (VehicleWithTurbo)vehicle;
+                VehicleWithTurbo vehicleWithTurbo = (VehicleWithTurbo) vehicle;
                 vehicleWithTurbo.setTurboOn();
             }
         }
@@ -133,10 +134,10 @@ public class ApplicationModel {
     }
 
     private void handleOutOfBounds(VehicleController vehicle) {
-        vehicle.stopEngine();
+        //vehicle.stopEngine();
         vehicle.turnLeft();
         vehicle.turnLeft();
-        vehicle.startEngine();
+        //vehicle.startEngine();
     }
 
     private boolean isOutOfBounds(PointD pos) {
@@ -144,21 +145,34 @@ public class ApplicationModel {
                 || pos.y > CarView.DRAWPANELHEIGHT - 60);
     }
 
+    public void addCar(int position) {
+        Random r= new Random();
+
+        // Generate random integers in range 0 to 2
+        int r1 = r.nextInt(3);
+
+        VehicleController vehicle;
+        switch (r1) {
+            case 0 -> vehicle = VehicleFactory.createVolvo240(0, position);
+            case 1 -> vehicle = VehicleFactory.createSaab95(0, position);
+            default -> vehicle = VehicleFactory.createScania(0,position, Color.black);
+        }
+        vehicles.add(vehicle);
+        notifyObservers();
+    }
+
+    public void removeCar() {
+        onRemoval(vehicles.removeLast());
+    }
+
     static void main() {
-        VehicleController volvo = new Volvo240();
-        VehicleController saab = new Saab95();
-        VehicleController scania = new Scania(Color.black);
-        volvo.updatePosition(0,300);
-        saab.updatePosition(0,100.0);
-        scania.updatePosition(0,200.0);
         List<VehicleController> vehicles = new ArrayList<>();
-        vehicles.add(volvo);
-        vehicles.add(saab);
-        vehicles.add(scania);
+        vehicles.add(VehicleFactory.createSaab95(0,0));
+        vehicles.add(VehicleFactory.createScania(0, 100, Color.black));
+        vehicles.add(VehicleFactory.createVolvo240(0, 200));
         ApplicationModel m = new ApplicationModel(vehicles, 10);
         CarController2 cc  = new CarController2(m);
         CarView v = new CarView("CarSim 1.0", cc);
-
         m.addObserver(v);
     }
 }
