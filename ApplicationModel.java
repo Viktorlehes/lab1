@@ -171,7 +171,7 @@ public class ApplicationModel {
         vehicles.add(VehicleFactory.createScania(0, 100, Color.black));
         vehicles.add(VehicleFactory.createVolvo240(0, 200));
         ApplicationModel m = new ApplicationModel(vehicles, 10);
-        CarController2 cc  = new CarController2(m);
+        CarController cc  = new CarController(m);
         CarView v = new CarView("CarSim 1.0", cc);
         m.addObserver(v);
     }

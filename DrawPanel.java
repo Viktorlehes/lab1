@@ -61,7 +61,6 @@ public class DrawPanel extends JPanel{
     }
 
     public void updateImageObjects(Map<String, Pair<PointD, String>> vehicleData) {
-        System.out.println(objects.size());
         if (vehicleData == null) return;
         vehicleData.forEach((key, data) -> {
             if (!objects.containsKey(key)) {

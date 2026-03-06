@@ -21,7 +21,7 @@ public class CarView extends JFrame implements ApplicationListener {
     static final int DRAWPANELWIDTH = 800;
     private int nextPosition = 280;
     // The controller member
-    CarController2 carC;
+    CarController carC;
     Map<String, Pair<PointD, String>> vehicleData = new HashMap<>();
 
 
@@ -43,7 +43,7 @@ public class CarView extends JFrame implements ApplicationListener {
     JButton addCarButton;
     JButton removeCarButton;
     // Constructor
-    public CarView(String framename, CarController2 cc){
+    public CarView(String framename, CarController cc){
         this.carC = cc;
         controlPanel = new JPanel();
         gasPanel = new JPanel();
